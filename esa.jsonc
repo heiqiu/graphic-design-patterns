@@ -1,0 +1,17 @@
+{
+  // ESA Pages 构建配置
+  // 文档: https://help.aliyun.com/zh/edge-security-acceleration/esa/build-pages
+  
+  "name": "design-patterns-game",
+  
+  // 构建配置
+  "build": {
+    "command": "npm run build"
+  },
+  
+  // 静态资源配置
+  "assets": {
+    "directory": "./dist",
+    "notFoundStrategy": "singlePageApplication"  // SPA应用，404时返回index.html
+  }
+}
