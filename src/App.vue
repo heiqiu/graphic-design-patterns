@@ -17,21 +17,18 @@
         <section class="pattern-category">
           <h3>🔄 行为型模式 (Behavioral)</h3>
           <div class="pattern-grid">
-            <div 
-              class="pattern-card available"
-              @click="selectPattern('observer')"
-            >
+            <div class="pattern-card available" @click="selectPattern('observer')">
               <div class="pattern-icon">👁️</div>
               <div class="pattern-name">观察者模式</div>
               <div class="pattern-name-en">Observer</div>
               <div class="pattern-status">✅ 可游玩</div>
             </div>
             
-            <div class="pattern-card locked">
+            <div class="pattern-card available" @click="selectPattern('strategy')">
               <div class="pattern-icon">🎯</div>
               <div class="pattern-name">策略模式</div>
               <div class="pattern-name-en">Strategy</div>
-              <div class="pattern-status">🔒 即将推出</div>
+              <div class="pattern-status">✅ 可游玩</div>
             </div>
             
             <div class="pattern-card locked">
@@ -47,18 +44,18 @@
         <section class="pattern-category">
           <h3>🏭 创建型模式 (Creational)</h3>
           <div class="pattern-grid">
-            <div class="pattern-card locked">
-              <div class="pattern-icon">1️⃣</div>
+            <div class="pattern-card available" @click="selectPattern('singleton')">
+              <div class="pattern-icon">🔮</div>
               <div class="pattern-name">单例模式</div>
               <div class="pattern-name-en">Singleton</div>
-              <div class="pattern-status">🔒 即将推出</div>
+              <div class="pattern-status">✅ 可游玩</div>
             </div>
             
-            <div class="pattern-card locked">
+            <div class="pattern-card available" @click="selectPattern('factory')">
               <div class="pattern-icon">🏭</div>
               <div class="pattern-name">工厂模式</div>
               <div class="pattern-name-en">Factory</div>
-              <div class="pattern-status">🔒 即将推出</div>
+              <div class="pattern-status">✅ 可游玩</div>
             </div>
             
             <div class="pattern-card locked">
@@ -74,17 +71,17 @@
         <section class="pattern-category">
           <h3>🏗️ 结构型模式 (Structural)</h3>
           <div class="pattern-grid">
+            <div class="pattern-card available" @click="selectPattern('decorator')">
+              <div class="pattern-icon">🎨</div>
+              <div class="pattern-name">装饰器模式</div>
+              <div class="pattern-name-en">Decorator</div>
+              <div class="pattern-status">✅ 可游玩</div>
+            </div>
+            
             <div class="pattern-card locked">
               <div class="pattern-icon">🔌</div>
               <div class="pattern-name">适配器模式</div>
               <div class="pattern-name-en">Adapter</div>
-              <div class="pattern-status">🔒 即将推出</div>
-            </div>
-            
-            <div class="pattern-card locked">
-              <div class="pattern-icon">🎨</div>
-              <div class="pattern-name">装饰器模式</div>
-              <div class="pattern-name-en">Decorator</div>
               <div class="pattern-status">🔒 即将推出</div>
             </div>
             
@@ -100,27 +97,44 @@
 
       <footer class="home-footer">
         <p>💡 通过有趣的游戏来学习和理解设计模式</p>
+        <p class="game-count">已开放 5 种设计模式游戏</p>
         <p class="copyright">Made with ❤️ for learning design patterns</p>
       </footer>
     </div>
 
     <!-- 观察者模式游戏 -->
-    <ObserverGameView 
-      v-else-if="currentView === 'observer'" 
-      @back="currentView = 'home'"
-    />
+    <ObserverGameView v-else-if="currentView === 'observer'" @back="currentView = 'home'" />
+    
+    <!-- 单例模式游戏 -->
+    <SingletonGameView v-else-if="currentView === 'singleton'" @back="currentView = 'home'" />
+    
+    <!-- 工厂模式游戏 -->
+    <FactoryGameView v-else-if="currentView === 'factory'" @back="currentView = 'home'" />
+    
+    <!-- 策略模式游戏 -->
+    <StrategyGameView v-else-if="currentView === 'strategy'" @back="currentView = 'home'" />
+    
+    <!-- 装饰器模式游戏 -->
+    <DecoratorGameView v-else-if="currentView === 'decorator'" @back="currentView = 'home'" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import ObserverGameView from './games/observer/ObserverGameView.vue';
+import SingletonGameView from './games/singleton/SingletonGameView.vue';
+import FactoryGameView from './games/factory/FactoryGameView.vue';
+import StrategyGameView from './games/strategy/StrategyGameView.vue';
+import DecoratorGameView from './games/decorator/DecoratorGameView.vue';
 
-const currentView = ref<'home' | 'observer'>('home');
+type ViewType = 'home' | 'observer' | 'singleton' | 'factory' | 'strategy' | 'decorator';
+
+const currentView = ref<ViewType>('home');
 
 function selectPattern(pattern: string) {
-  if (pattern === 'observer') {
-    currentView.value = 'observer';
+  const validPatterns: ViewType[] = ['observer', 'singleton', 'factory', 'strategy', 'decorator'];
+  if (validPatterns.includes(pattern as ViewType)) {
+    currentView.value = pattern as ViewType;
   }
 }
 </script>
@@ -287,6 +301,11 @@ body {
 .home-footer p {
   margin: 0.5rem 0;
   color: #888;
+}
+
+.game-count {
+  color: #2ed573 !important;
+  font-weight: bold;
 }
 
 .copyright {
